@@ -41,11 +41,6 @@
 //     //     -0.5f, -0.5f, 0.0f,
 //     // };
 //
-//     char buffer[256];
-//     getcwd(buffer, sizeof(buffer));
-//
-//     std::cout << buffer;
-//
 //     float halfH = sqrtf(3) / 2 / 2;
 //     float vertexData[] = {
 //         0.0f, halfH, 0.0f, 1.0f, 1.0f, 0.0f,
