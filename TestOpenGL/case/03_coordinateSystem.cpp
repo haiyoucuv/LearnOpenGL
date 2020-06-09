@@ -44,51 +44,64 @@ int coordinateSystem(GLFWwindow *window) {
     // 已经填充了可以被释放
     stbi_image_free(data);
 
-	// 纹理uv   ------ 位置 ------   - 纹理坐标 -
+    // 纹理uv   ------ 位置 ------   - 纹理坐标 -
     float vertexData[] = {
         // Front face
-        -0.5f, -0.5f, -0.5f, 0.0f,  0.0f,
-        0.5f,  -0.5f, -0.5f, 1.0f,  0.0f,
-        0.5f,  0.5f,  -0.5f, 1.0f,  1.0f,
-        0.5f,  0.5f,  -0.5f, 1.0f,  1.0f,
-        -0.5f, 0.5f,  -0.5f, 0.0f,  1.0f,
-        -0.5f, -0.5f, -0.5f, 0.0f,  0.0f,
+        -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
+        0.5f, -0.5f, -0.5f, 1.0f, 0.0f,
+        0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+        0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+        -0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
 
-        -0.5f, -0.5f, 0.5f,  0.0f,  0.0f,
-        0.5f,  -0.5f, 0.5f,  1.0f,  0.0f,
-        0.5f,  0.5f,  0.5f,  1.0f,  1.0f,
-        0.5f,  0.5f,  0.5f,  1.0f,  1.0f,
-        -0.5f, 0.5f,  0.5f,  0.0f,  1.0f,
-        -0.5f, -0.5f, 0.5f,  0.0f,  0.0f,
+        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+        0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
+        0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
+        0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
+        -0.5f, 0.5f, 0.5f, 0.0f, 1.0f,
+        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
 
-        -0.5f, 0.5f,  0.5f,  1.0f,  0.0f,
-        -0.5f, 0.5f,  -0.5f, 1.0f,  1.0f,
-        -0.5f, -0.5f, -0.5f, 0.0f,  1.0f,
-        -0.5f, -0.5f, -0.5f, 0.0f,  1.0f,
-        -0.5f, -0.5f, 0.5f,  0.0f,  0.0f,
-        -0.5f, 0.5f,  0.5f,  1.0f,  0.0f,
+        -0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+        -0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+        -0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
 
-        0.5f,  0.5f,  0.5f,  1.0f,  0.0f,
-        0.5f,  0.5f,  -0.5f, 1.0f,  1.0f,
-        0.5f,  -0.5f, -0.5f, 0.0f,  1.0f,
-        0.5f,  -0.5f, -0.5f, 0.0f,  1.0f,
-        0.5f,  -0.5f, 0.5f,  0.0f,  0.0f,
-        0.5f,  0.5f,  0.5f,  1.0f,  0.0f,
+        0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+        0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+        0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+        0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+        0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+        0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
 
-        -0.5f, -0.5f, -0.5f, 0.0f,  1.0f,
-        0.5f,  -0.5f, -0.5f, 1.0f,  1.0f,
-        0.5f,  -0.5f, 0.5f,  1.0f,  0.0f,
-        0.5f,  -0.5f, 0.5f,  1.0f,  0.0f,
-        -0.5f, -0.5f, 0.5f,  0.0f,  0.0f,
-        -0.5f, -0.5f, -0.5f, 0.0f,  1.0f,
+        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+        0.5f, -0.5f, -0.5f, 1.0f, 1.0f,
+        0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
+        0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
+        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
 
-        -0.5f, 0.5f,  -0.5f, 0.0f,  1.0f,
-        0.5f,  0.5f,  -0.5f, 1.0f,  1.0f,
-        0.5f,  0.5f,  0.5f,  1.0f,  0.0f,
-        0.5f,  0.5f,  0.5f,  1.0f,  0.0f,
-        -0.5f, 0.5f,  0.5f,  0.0f,  0.0f,
-        -0.5f, 0.5f,  -0.5f, 0.0f,  1.0f
+        -0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
+        0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+        0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+        0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+        -0.5f, 0.5f, 0.5f, 0.0f, 0.0f,
+        -0.5f, 0.5f, -0.5f, 0.0f, 1.0f
     };
+
+    glm::vec3 cubePositions[] = {
+        glm::vec3(2.0f, 5.0f, -15.0f),
+        glm::vec3(-1.5f, -2.2f, -2.5f),
+        glm::vec3(-3.8f, -2.0f, -12.3f),
+        glm::vec3(2.4f, -0.4f, -3.5f),
+        glm::vec3(-1.7f, 3.0f, -7.5f),
+        glm::vec3(1.3f, -2.0f, -2.5f),
+        glm::vec3(1.5f, 2.0f, -2.5f),
+        glm::vec3(1.5f, 0.2f, -1.5f),
+        glm::vec3(-1.3f, 1.0f, -1.5f)
+    };
+
     // 缓冲对象
     GLuint VBO;
     glGenBuffers(1, &VBO);                             // 生成缓冲对象
@@ -102,21 +115,21 @@ int coordinateSystem(GLFWwindow *window) {
     glBindVertexArray(VAO);
 
     Shader *shader = new Shader(PROJECT_DIR + "shader/" + "03_coordinateSystem.vert",
-                                PROJECT_DIR + "shader/" + "03_coordinateSystem.frag");
+        PROJECT_DIR + "shader/" + "03_coordinateSystem.frag");
 
     shader->use();
 
     // 设定绘画模式为线框模式
-    //	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) 0);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) (3 * sizeof(float)));
 
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
 
     // 模型矩阵
-//    glm::mat4 model = glm::mat4(1.0f);
+    // glm::mat4 model = glm::mat4(1.0f);
 
     // 观察矩阵
     glm::mat4 view = glm::mat4(1.0f);
@@ -126,9 +139,9 @@ int coordinateSystem(GLFWwindow *window) {
     glm::mat4 projection = glm::mat4(1.0f);
     projection = glm::perspective(glm::radians(45.0f), 800.0f / 800.0f, 0.1f, 100.0f);
 
-    GLuint u_model = glGetUniformLocation(shader->id, "u_model");
-    GLuint u_view = glGetUniformLocation(shader->id, "u_view");
-    GLuint u_projection = glGetUniformLocation(shader->id, "u_projection");
+    GLint u_model = glGetUniformLocation(shader->id, "u_model");
+    GLint u_view = glGetUniformLocation(shader->id, "u_view");
+    GLint u_projection = glGetUniformLocation(shader->id, "u_projection");
 
     glEnable(GL_DEPTH_TEST);
 
@@ -144,20 +157,32 @@ int coordinateSystem(GLFWwindow *window) {
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-//        glClear(GL_COLOR_BUFFER_BIT);
+        // glClear(GL_COLOR_BUFFER_BIT);
 
-        glm::mat4 model = glm::mat4(1.0f);
-//        model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
-        model = glm::rotate(model, glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
-        glUniformMatrix4fv(u_model, 1, GL_FALSE, glm::value_ptr(model));
+
+        for (int i = 0; i < sizeof(cubePositions) / sizeof(glm::vec3); i++) {
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::translate(model, cubePositions[i]);
+            // float angle = 20.0f * i;
+            model = glm::rotate(model, glm::radians(50.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+            model = glm::rotate(model, (float) glfwGetTime() * glm::radians(20.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+            model = glm::rotate(model, (float) glfwGetTime() * glm::radians(20.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+            model = glm::rotate(model, (float) glfwGetTime() * glm::radians(20.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+
+            glUniformMatrix4fv(u_model, 1, GL_FALSE, glm::value_ptr(model));
+
+            glDrawArrays(GL_TRIANGLES, 0, sizeof(vertexData) / sizeof(float) / 5);
+        }
+
+        glm::mat4 view = glm::mat4(1.0);
+        float _z = -5.0f * (float) glfwGetTime();
+        if (_z <= -10.0f) {
+            _z = -10.0f;
+        }
+
+        view = glm::translate(view, glm::vec3(0.0f, 0.0f, _z));
         glUniformMatrix4fv(u_view, 1, GL_FALSE, glm::value_ptr(view));
         glUniformMatrix4fv(u_projection, 1, GL_FALSE, glm::value_ptr(projection));
-
-        // 绘制顶点
-        int count = sizeof(vertexData) / sizeof(float) / 5;
-        glDrawArrays(GL_TRIANGLES, 0, count);
-//        glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-//        glDrawArrays(GL_TRIANGLE_FAN, 0, 36);
 
         glfwSwapBuffers(window);                          // 交换颜色缓冲（双缓冲的交换）（绘制）
         glfwPollEvents();                                 // 检查事件的触发，如键盘输入、鼠标移动

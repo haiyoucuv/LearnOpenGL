@@ -106,7 +106,7 @@ int transformation(GLFWwindow *window) {
 
     // 缩放
 //    trans = glm::scale(trans, glm::vec3(2, 2, 2));
-    GLuint u_transform = glGetUniformLocation(shader->id, "u_transform");
+    GLint u_transform = glGetUniformLocation(shader->id, "u_transform");
     glUniformMatrix4fv(u_transform, 1, GL_FALSE, glm::value_ptr(trans));
 
     // 建立主循环
