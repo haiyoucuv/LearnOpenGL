@@ -29,8 +29,8 @@ int draw_triangle(GLFWwindow *window) {
     glBindVertexArray(VAO);
 
     string shaderDir = string("/Users/haiyoucuv/Documents/OpenGl/TestOpenGL/TestOpenGL/TestOpenGL/shader/");
-    Shader *shader = new Shader(shaderDir + "triangle_vShader.glsl",
-                                shaderDir + "triangle_fShader.glsl");
+    Shader *shader = new Shader(shaderDir + "00_triangle.vert",
+                                shaderDir + "00_triangle.frag");
 
     shader->use();
 
