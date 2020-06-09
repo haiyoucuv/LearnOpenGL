@@ -81,8 +81,8 @@ int transformation(GLFWwindow *window) {
     glBindTexture(GL_TEXTURE_2D, texture);
     glBindVertexArray(VAO);
 
-    Shader *shader = new Shader(PROJECT_DIR + "shader/" + "02_transformation_vShader.glsl",
-                                PROJECT_DIR + "shader/" + "02_transformation_fShader.glsl");
+    Shader *shader = new Shader(PROJECT_DIR + "shader/" + "02_transformation.vert",
+                                PROJECT_DIR + "shader/" + "02_transformation.frag");
 
     shader->use();
 
@@ -99,15 +99,15 @@ int transformation(GLFWwindow *window) {
     glm::mat4 trans = glm::mat4(1.0f);
 
     // 移动画矩阵
-//    trans = glm::translate(trans, glm::vec3(0.1f, 0.0f, 0.0f));
+    trans = glm::translate(trans, glm::vec3(0.5f, 0.0f, 0.0f));
 
     // 旋转
 //    trans = glm::rotate(trans, glm::radians(90.0f), glm::vec3(0.0, 0.0, 1.0));
 
     // 缩放
-    trans = glm::scale(trans, glm::vec3(2, 2, 2));
+//    trans = glm::scale(trans, glm::vec3(2, 2, 2));
     GLuint u_transform = glGetUniformLocation(shader->id, "u_transform");
-    glUniformMatrix4fv(u_transform, 1, GL_TRUE, glm::value_ptr(trans));
+    glUniformMatrix4fv(u_transform, 1, GL_FALSE, glm::value_ptr(trans));
 
     // 建立主循环
     // glfwWindowShouldClose会检查窗口是否需要退出，如果需要退出则结束主循环退出程序
@@ -121,9 +121,9 @@ int transformation(GLFWwindow *window) {
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        glm::mat4 trans = glm::mat4(1.0f);
-        trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
-        glUniformMatrix4fv(u_transform, 1, GL_TRUE, glm::value_ptr(trans));
+//        glm::mat4 trans = glm::mat4(1.0f);
+//        trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
+//        glUniformMatrix4fv(u_transform, 1, GL_TRUE, glm::value_ptr(trans));
 
         // 绘制顶点
         glDrawArrays(GL_TRIANGLE_FAN, 0, 4);

@@ -25,7 +25,7 @@ int coordinateSystem(GLFWwindow *window) {
     glTexParameteri(GL_TEXTURE, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     // 加载一个图片
-    //	stbi_set_flip_vertically_on_load(true);
+    stbi_set_flip_vertically_on_load(true);
     int w, h, channels;                          // 宽，高，通道数
     unsigned char *data = stbi_load((PROJECT_DIR + "image/avater.jpeg").c_str(), &w, &h, &channels, 0);
 
@@ -44,25 +44,51 @@ int coordinateSystem(GLFWwindow *window) {
     // 已经填充了可以被释放
     stbi_image_free(data);
 
-    /**
-                    *          (0.5,1)
-                    * (0,1) -------------- (1,1)
-                    *       |            |
-                    *       |    图片    |
-                    *       |            |
-                    * (0,0) -------------- (1,0)
-                    *          (0.5,0)
-                    */
-
-    // 纹理uv   ------ 位置 ------   - 纹理坐标 -
-    //          0.0f, 0.5f, 0.0f,   1.0f, 1.0f
+	// 纹理uv   ------ 位置 ------   - 纹理坐标 -
     float vertexData[] = {
-        -0.5f, 0.5f,   0.0f,   0.0f, 0.0f,                 // 左上
-        0.5f,  0.5f,   0.0f,   1.0f, 0.0f,                 // 右上
-        0.5f,  -0.5f,  0.0f,   1.0f, 1.0f,                 // 右下
-        -0.5f, -0.5f,  0.0f,   0.0f, 1.0f,                 // 左下
-    };
+        // Front face
+        -0.5f, -0.5f, -0.5f, 0.0f,  0.0f,
+        0.5f,  -0.5f, -0.5f, 1.0f,  0.0f,
+        0.5f,  0.5f,  -0.5f, 1.0f,  1.0f,
+        0.5f,  0.5f,  -0.5f, 1.0f,  1.0f,
+        -0.5f, 0.5f,  -0.5f, 0.0f,  1.0f,
+        -0.5f, -0.5f, -0.5f, 0.0f,  0.0f,
 
+        -0.5f, -0.5f, 0.5f,  0.0f,  0.0f,
+        0.5f,  -0.5f, 0.5f,  1.0f,  0.0f,
+        0.5f,  0.5f,  0.5f,  1.0f,  1.0f,
+        0.5f,  0.5f,  0.5f,  1.0f,  1.0f,
+        -0.5f, 0.5f,  0.5f,  0.0f,  1.0f,
+        -0.5f, -0.5f, 0.5f,  0.0f,  0.0f,
+
+        -0.5f, 0.5f,  0.5f,  1.0f,  0.0f,
+        -0.5f, 0.5f,  -0.5f, 1.0f,  1.0f,
+        -0.5f, -0.5f, -0.5f, 0.0f,  1.0f,
+        -0.5f, -0.5f, -0.5f, 0.0f,  1.0f,
+        -0.5f, -0.5f, 0.5f,  0.0f,  0.0f,
+        -0.5f, 0.5f,  0.5f,  1.0f,  0.0f,
+
+        0.5f,  0.5f,  0.5f,  1.0f,  0.0f,
+        0.5f,  0.5f,  -0.5f, 1.0f,  1.0f,
+        0.5f,  -0.5f, -0.5f, 0.0f,  1.0f,
+        0.5f,  -0.5f, -0.5f, 0.0f,  1.0f,
+        0.5f,  -0.5f, 0.5f,  0.0f,  0.0f,
+        0.5f,  0.5f,  0.5f,  1.0f,  0.0f,
+
+        -0.5f, -0.5f, -0.5f, 0.0f,  1.0f,
+        0.5f,  -0.5f, -0.5f, 1.0f,  1.0f,
+        0.5f,  -0.5f, 0.5f,  1.0f,  0.0f,
+        0.5f,  -0.5f, 0.5f,  1.0f,  0.0f,
+        -0.5f, -0.5f, 0.5f,  0.0f,  0.0f,
+        -0.5f, -0.5f, -0.5f, 0.0f,  1.0f,
+
+        -0.5f, 0.5f,  -0.5f, 0.0f,  1.0f,
+        0.5f,  0.5f,  -0.5f, 1.0f,  1.0f,
+        0.5f,  0.5f,  0.5f,  1.0f,  0.0f,
+        0.5f,  0.5f,  0.5f,  1.0f,  0.0f,
+        -0.5f, 0.5f,  0.5f,  0.0f,  0.0f,
+        -0.5f, 0.5f,  -0.5f, 0.0f,  1.0f
+    };
     // 缓冲对象
     GLuint VBO;
     glGenBuffers(1, &VBO);                             // 生成缓冲对象
@@ -75,8 +101,8 @@ int coordinateSystem(GLFWwindow *window) {
     glBindTexture(GL_TEXTURE_2D, texture);
     glBindVertexArray(VAO);
 
-    Shader *shader = new Shader(PROJECT_DIR + "shader/" + "03_coordinateSystem_vShader.glsl",
-                                PROJECT_DIR + "shader/" + "03_coordinateSystem_fShader.glsl");
+    Shader *shader = new Shader(PROJECT_DIR + "shader/" + "03_coordinateSystem.vert",
+                                PROJECT_DIR + "shader/" + "03_coordinateSystem.frag");
 
     shader->use();
 
@@ -89,19 +115,22 @@ int coordinateSystem(GLFWwindow *window) {
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
 
-    // 生成单位矩阵
-    glm::mat4 trans = glm::mat4(1.0f);
+    // 模型矩阵
+//    glm::mat4 model = glm::mat4(1.0f);
 
-    // 移动画矩阵
-    //    trans = glm::translate(trans, glm::vec3(0.1f, 0.0f, 0.0f));
+    // 观察矩阵
+    glm::mat4 view = glm::mat4(1.0f);
+    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -5.0f));
 
-    // 旋转
-    //    trans = glm::rotate(trans, glm::radians(90.0f), glm::vec3(0.0, 0.0, 1.0));
+    // 投影矩阵
+    glm::mat4 projection = glm::mat4(1.0f);
+    projection = glm::perspective(glm::radians(45.0f), 800.0f / 800.0f, 0.1f, 100.0f);
 
-    // 缩放
-    trans = glm::scale(trans, glm::vec3(2, 2, 2));
-    GLuint u_transform = glGetUniformLocation(shader->id, "u_transform");
-    glUniformMatrix4fv(u_transform, 1, GL_TRUE, glm::value_ptr(trans));
+    GLuint u_model = glGetUniformLocation(shader->id, "u_model");
+    GLuint u_view = glGetUniformLocation(shader->id, "u_view");
+    GLuint u_projection = glGetUniformLocation(shader->id, "u_projection");
+
+    glEnable(GL_DEPTH_TEST);
 
     // 建立主循环
     // glfwWindowShouldClose会检查窗口是否需要退出，如果需要退出则结束主循环退出程序
@@ -113,14 +142,22 @@ int coordinateSystem(GLFWwindow *window) {
 
         // 清屏
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
 
-        glm::mat4 trans = glm::mat4(1.0f);
-        trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
-        glUniformMatrix4fv(u_transform, 1, GL_TRUE, glm::value_ptr(trans));
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//        glClear(GL_COLOR_BUFFER_BIT);
+
+        glm::mat4 model = glm::mat4(1.0f);
+//        model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
+        model = glm::rotate(model, glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
+        glUniformMatrix4fv(u_model, 1, GL_FALSE, glm::value_ptr(model));
+        glUniformMatrix4fv(u_view, 1, GL_FALSE, glm::value_ptr(view));
+        glUniformMatrix4fv(u_projection, 1, GL_FALSE, glm::value_ptr(projection));
 
         // 绘制顶点
-        glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+        int count = sizeof(vertexData) / sizeof(float) / 5;
+        glDrawArrays(GL_TRIANGLES, 0, count);
+//        glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+//        glDrawArrays(GL_TRIANGLE_FAN, 0, 36);
 
         glfwSwapBuffers(window);                          // 交换颜色缓冲（双缓冲的交换）（绘制）
         glfwPollEvents();                                 // 检查事件的触发，如键盘输入、鼠标移动
