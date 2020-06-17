@@ -84,8 +84,8 @@ int draw_texture(GLFWwindow *window) {
     glBindTexture(GL_TEXTURE_2D, texture);
     glBindVertexArray(VAO);
 
-    Shader *shader = new Shader(PROJECT_DIR + "shader/" + "01_texture.frag",
-                                PROJECT_DIR + "shader/" + "01_texture.vert");
+    Shader *shader = new Shader(PROJECT_DIR + "shader/" + "01_texture.vert",
+                                PROJECT_DIR + "shader/" + "01_texture.frag");
 
     shader->use();
 

@@ -23,6 +23,7 @@ using namespace std;
 class Appaction {
 public:
 	GLFWwindow* window;
+
 public:
     Appaction();
     ~Appaction();

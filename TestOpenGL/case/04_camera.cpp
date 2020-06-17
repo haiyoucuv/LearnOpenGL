@@ -8,6 +8,20 @@
 
 #include "04_camera.hpp"
 
+void processInput(GLFWwindow *window, float dt, glm::vec3 *cameraPos, glm::vec3 *cameraFront, glm::vec3 *cameraUp);
+
+void mouse_callback(GLFWwindow *window, double xpos, double ypos);
+
+void scroll_callback(GLFWwindow *window, double xoffset, double yoffset);
+
+float yaw = -90.0f;
+float pitch = 0.0f;
+float fov = 45.0f;
+// camera
+glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+
 int camera(GLFWwindow *window) {
     string PROJECT_DIR = "/Users/haiyoucuv/Documents/OpenGl/TestOpenGL/TestOpenGL/TestOpenGL/";
 
@@ -26,7 +40,7 @@ int camera(GLFWwindow *window) {
 
     // 加载一个图片
     stbi_set_flip_vertically_on_load(true);
-    int w, h, channels;                          // 宽，高，通道数
+    int w, h, channels; // 宽，高，通道数
     unsigned char *data = stbi_load((PROJECT_DIR + "image/avater.jpeg").c_str(), &w, &h, &channels, 0);
 
     // 创建一个纹理
@@ -131,10 +145,6 @@ int camera(GLFWwindow *window) {
     // 模型矩阵
     // glm::mat4 model = glm::mat4(1.0f);
 
-    // 观察矩阵
-    glm::mat4 view = glm::mat4(1.0f);
-    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -5.0f));
-
     // 投影矩阵
     glm::mat4 projection = glm::mat4(1.0f);
     projection = glm::perspective(glm::radians(45.0f), 800.0f / 800.0f, 0.1f, 100.0f);
@@ -145,6 +155,29 @@ int camera(GLFWwindow *window) {
 
     glEnable(GL_DEPTH_TEST);
 
+    glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);   // 相机指向的位置
+
+    // 相机位置 - 相机指向的位置 得到方向向量 z
+    glm::vec3 cameraDirection = glm::normalize(cameraPos - cameraTarget);
+
+    glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f); // 一个标准的向上向量
+
+    // 使用标准上向量和方向向量叉乘得到向右向量 x
+    glm::vec3 cameraRight = glm::normalize(glm::cross(up, cameraDirection));
+
+    // 使用方向向量和右向量叉乘得到向上向量 y
+    cameraUp = glm::cross(cameraDirection, cameraRight);
+
+    // 观察矩阵
+    // glm::mat4 view = glm::mat4(1.0f);
+    // view = glm::translate(view, glm::vec3(0.0f, 0.0f, -5.0f));
+
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetCursorPosCallback(window, mouse_callback);
+    glfwSetScrollCallback(window, scroll_callback);
+
+    float lastT = glfwGetTime();
+    float dt = 0.0f;
     // 建立主循环
     // glfwWindowShouldClose会检查窗口是否需要退出，如果需要退出则结束主循环退出程序
     while (!glfwWindowShouldClose(window)) {
@@ -158,7 +191,6 @@ int camera(GLFWwindow *window) {
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         // glClear(GL_COLOR_BUFFER_BIT);
-
 
         for (int i = 0; i < sizeof(cubePositions) / sizeof(glm::vec3); i++) {
             glm::mat4 model = glm::mat4(1.0f);
@@ -174,14 +206,21 @@ int camera(GLFWwindow *window) {
             glDrawArrays(GL_TRIANGLES, 0, sizeof(vertexData) / sizeof(float) / 5);
         }
 
-        glm::mat4 view = glm::mat4(1.0);
-        float _z = -5.0f * (float) glfwGetTime();
-        if (_z <= -10.0f) {
-            _z = -10.0f;
-        }
+        float currentT = glfwGetTime();
+        dt = currentT - lastT;
+        lastT = currentT;
 
-        view = glm::translate(view, glm::vec3(0.0f, 0.0f, _z));
+        glm::mat4 view = glm::lookAt(
+            cameraPos,
+            cameraPos + cameraFront,
+            cameraUp
+        );
+
+        processInput(window, dt, &cameraPos, &cameraFront, &cameraUp);
+
         glUniformMatrix4fv(u_view, 1, GL_FALSE, glm::value_ptr(view));
+
+        projection = glm::perspective(glm::radians(fov), 800.0f / 800.0f, 0.1f, 100.0f);
         glUniformMatrix4fv(u_projection, 1, GL_FALSE, glm::value_ptr(projection));
 
         glfwSwapBuffers(window);                          // 交换颜色缓冲（双缓冲的交换）（绘制）
@@ -190,4 +229,70 @@ int camera(GLFWwindow *window) {
 
     glfwTerminate();                                      // 结束主循环，释放资源
     return 0;
+}
+
+void processInput(GLFWwindow *window, float dt, glm::vec3 *cameraPos, glm::vec3 *cameraFront, glm::vec3 *cameraUp) {
+    float cameraSpeed = 0.05f;  // adjust accordingly
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+        *cameraPos += cameraSpeed * *cameraFront;
+    }
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+        *cameraPos -= cameraSpeed * *cameraFront;
+    }
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+        *cameraPos -= glm::normalize(glm::cross(*cameraFront, *cameraUp)) * cameraSpeed;
+    }
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+        *cameraPos += glm::normalize(glm::cross(*cameraFront, *cameraUp)) * cameraSpeed;
+    }
+}
+
+float lastX = 400, lastY = 400;
+bool firstMouse = true;
+
+void mouse_callback(GLFWwindow *window, double xpos, double ypos) {
+    if (firstMouse) {
+        lastX = xpos;
+        lastY = ypos;
+        firstMouse = false;
+    }
+
+    float xoffset = xpos - lastX;
+    float yoffset = lastY - ypos;
+    lastX = xpos;
+    lastY = ypos;
+
+    float sensitivity = 0.05;
+    xoffset *= sensitivity;
+    yoffset *= sensitivity;
+
+    yaw += xoffset;
+    pitch += yoffset;
+
+    if (pitch > 89.0f) {
+        pitch = 89.0f;
+    }
+    if (pitch < -89.0f) {
+        pitch = -89.0f;
+    }
+
+    glm::vec3 front;
+    front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+    front.y = sin(glm::radians(pitch));
+    front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+
+    cameraFront = glm::normalize(front);
+}
+
+void scroll_callback(GLFWwindow *window, double xoffset, double yoffset) {
+    if (fov >= 1.0f && fov <= 45.0f) {
+        fov -= yoffset;
+    }
+    if (fov <= 1.0f) {
+        fov = 1.0f;
+    }
+
+    if (fov >= 45.0f) {
+        fov = 45.0f;
+    }
 }
