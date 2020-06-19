@@ -15,29 +15,40 @@
 class Camera {
 
 public:
-    glm::vec3 position; // 位置
-    glm::vec3 front;    // 方向向量
-    glm::vec3 up;       // 上向量
+    glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f); // 位置
+    glm::vec3 front = glm::vec3(0.0f, 0.0f, -1.0f);    // 方向向量
+    glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);       // 上向量
     glm::vec3 right;    // 右向量
-    glm::vec3 worldUp;  // 世界中的上向量
+    glm::vec3 worldUp = glm::vec3(0.0f, 1.0f, 0.0f);  /// TODO maybe 世界中的上向量
 
-    float far;  // 最远可见
-    float near; // 最近可见
+    float fov = 45.0f;  // fov
+    float aspect = 1.0f;    // 画面比例
+    float far = 100.0f;  // 最远可见
+    float near = 0.1f; // 最近可见
 
-    float fov;  // fov
 
-    float yaw;      // 偏航角
-    float pitch;    // 俯仰角
-    float roll;     // 滚转角
+    float yaw = -90.0f;      // 偏航角
+    float pitch = 0.0f;    // 俯仰角
+    float roll = 0.0f;     // 滚转角
+
+    glm::mat4 view;
+    glm::mat4 projection;
 
 public:
-    Camera();
+    Camera(glm::vec3 position, float fov, float aspect, float near, float far);
 
     ~Camera();
 
-    glm::mat4 getViewMatrix();
+    void lookAt(glm::vec3 target);
+
+    void lookAt(float x, float y, float z);
+
+    void update(float dt);
 
 private:
+    void updateView();
+    void updateProjection();
+    void updateFront();
 
 };
 

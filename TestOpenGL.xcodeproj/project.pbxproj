@@ -10,6 +10,7 @@
 		1F5AA0696D734D095799BC52 /* stb_image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F5AA2FD09D8148701CDCF77 /* stb_image.cpp */; };
 		1F5AA5796A4763087D928AC5 /* 00_draw_triangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F5AA22EA28FE417DABECBF9 /* 00_draw_triangle.cpp */; };
 		1F5AAB23ED121028B701E34F /* 04_camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F5AA4377E2303B9BA64A6BF /* 04_camera.cpp */; };
+		1F5AAE56BEC6A972BCB8334A /* 05_camera_class.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F5AA895AE4EC6E884252302 /* 05_camera_class.cpp */; };
 		1F5AAE7A28570DD037BA42E3 /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F5AADBD5B585F812359E596 /* Shader.cpp */; };
 		D60ACB0B24965A8E00922AE1 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D60ACB0924965A8E00922AE1 /* Camera.cpp */; };
 		D6801002248CEF6F00A108E9 /* 01_draw_texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D6801001248CEF6F00A108E9 /* 01_draw_texture.cpp */; };
@@ -42,6 +43,8 @@
 		1F5AA2D08BC476770B4E1FD2 /* stb_image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stb_image.h; sourceTree = "<group>"; };
 		1F5AA2FD09D8148701CDCF77 /* stb_image.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stb_image.cpp; sourceTree = "<group>"; };
 		1F5AA4377E2303B9BA64A6BF /* 04_camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = 04_camera.cpp; sourceTree = "<group>"; };
+		1F5AA47F45F9EBCAA197B554 /* 05_camera_class.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = 05_camera_class.hpp; sourceTree = "<group>"; };
+		1F5AA895AE4EC6E884252302 /* 05_camera_class.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = 05_camera_class.cpp; sourceTree = "<group>"; };
 		1F5AA94ACF3C4BB4833F3B7F /* 04_camera.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = 04_camera.hpp; sourceTree = "<group>"; };
 		1F5AAAD7278706B820F491C5 /* avater.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = avater.jpeg; sourceTree = "<group>"; };
 		1F5AAD530E0DCF5656971E78 /* Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shader.h; sourceTree = "<group>"; };
@@ -116,6 +119,8 @@
 				D68011B6248D48EE00A108E9 /* 03_coordinateSystem.hpp */,
 				1F5AA4377E2303B9BA64A6BF /* 04_camera.cpp */,
 				1F5AA94ACF3C4BB4833F3B7F /* 04_camera.hpp */,
+				1F5AA895AE4EC6E884252302 /* 05_camera_class.cpp */,
+				1F5AA47F45F9EBCAA197B554 /* 05_camera_class.hpp */,
 			);
 			path = case;
 			sourceTree = "<group>";
@@ -264,6 +269,7 @@
 				D68011B2248D040200A108E9 /* 02_transformation.cpp in Sources */,
 				1F5AA5796A4763087D928AC5 /* 00_draw_triangle.cpp in Sources */,
 				1F5AAB23ED121028B701E34F /* 04_camera.cpp in Sources */,
+				1F5AAE56BEC6A972BCB8334A /* 05_camera_class.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

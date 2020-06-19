@@ -1,13 +1,13 @@
 //
-//  04_camera.hpp
+//  05_camera_class.hpp
 //  TestOpenGL
 //
-//  Created by 还有醋v on 2020/6/9.
+//  Created by 还有醋v on 2020/6/20.
 //  Copyright © 2020 还有醋v. All rights reserved.
 //
 
-#ifndef _4_camera_hpp
-#define _4_camera_hpp
+#ifndef _5_camera_class_hpp
+#define _5_camera_class_hpp
 
 #include <glad.h>
 #include <glfw3.h>
@@ -24,14 +24,16 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "Camera.hpp"
+
 using namespace std;
 
-void processInput(GLFWwindow *window, float dt, glm::vec3 *cameraPos, glm::vec3 *cameraFront, glm::vec3 *cameraUp);
+void processInput(GLFWwindow *window, float dt);
 
 void mouse_callback(GLFWwindow *window, double xpos, double ypos);
 
 void scroll_callback(GLFWwindow *window, double xoffset, double yoffset);
 
-int camera(GLFWwindow* window);
+int cameraClass(GLFWwindow* window);
 
-#endif /* _4_camera_hpp */
+#endif /* _5_camera_class_hpp */

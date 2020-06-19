@@ -7,6 +7,7 @@
 #include "02_transformation.hpp"
 #include "03_coordinateSystem.hpp"
 #include "04_camera.hpp"
+#include "05_camera_class.hpp"
 
 int main() {
     Appaction *app = new Appaction();
@@ -15,6 +16,7 @@ int main() {
     // draw_texture(app->window);
     // transformation(app->window);
     // coordinateSystem(app->window);
-    camera(app->window);
+    // camera(app->window);
+    cameraClass(app->window);
     return 0;
 }
