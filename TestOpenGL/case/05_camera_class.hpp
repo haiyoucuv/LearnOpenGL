@@ -9,12 +9,10 @@
 #ifndef _5_camera_class_hpp
 #define _5_camera_class_hpp
 
+#include "const.hpp"
+
 #include <glad.h>
 #include <glfw3.h>
-
-#include <iostream>
-#include <math.h>
-#include <string>
 
 #include "stb_image.h"
 
@@ -24,9 +22,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "Camera.hpp"
 
-using namespace std;
+#include "Camera.hpp"
 
 void processInput(GLFWwindow *window, float dt);
 

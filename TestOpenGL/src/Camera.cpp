@@ -11,6 +11,7 @@
 Camera::Camera(glm::vec3 position, float fov, float aspect, float near, float far) {
     this->position = position;
     this->fov = fov;
+    this->aspect = aspect;
     this->near = near;
     this->far = far;
     this->update(0);
@@ -69,6 +70,7 @@ void Camera::updateView() {
 }
 
 void Camera::updateProjection() {
+    this->aspect = winWidth / winHeight;
     this->projection = glm::perspective(glm::radians(this->fov), this->aspect, this->near, this->far);
 }
 

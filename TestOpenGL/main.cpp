@@ -1,6 +1,4 @@
 
-#include <string>
-
 #include "Appaction.hpp"
 #include "00_draw_triangle.h"
 #include "01_draw_texture.h"
@@ -8,6 +6,8 @@
 #include "03_coordinateSystem.hpp"
 #include "04_camera.hpp"
 #include "05_camera_class.hpp"
+#include "06_light.hpp"
+
 
 int main() {
     Appaction *app = new Appaction();
@@ -16,7 +16,9 @@ int main() {
     // draw_texture(app->window);
     // transformation(app->window);
     // coordinateSystem(app->window);
-    // camera(app->window);
+    // camera5(app->window);
     cameraClass(app->window);
+    // light(app->window);
+
     return 0;
 }

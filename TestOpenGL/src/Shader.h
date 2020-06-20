@@ -6,13 +6,19 @@
 #ifndef SHADER_H
 #define SHADER_H
 
-
-#include <glad.h>
-
 #include <string>
 #include <fstream>
 #include <sstream>
 #include <iostream>
+
+#include <glad.h>
+#include <glfw3.h>
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
+using namespace std;
 
 class Shader {
 public:
@@ -25,18 +31,27 @@ public:
      * @param fragmentPath
      */
     // Shader(const char *vertexPath, const char *fragmentPath);
-    Shader(std::string vertexPath, std::string fragmentPath);
+    Shader(string vertexPath, string fragmentPath);
 
     // 析构函数
     ~Shader();
 
     void use();
 
-    void setBool(const std::string &name, bool value) const;
+    GLint getUniformLocation(const GLchar *name);
 
-    void setInt(const std::string &name, int value) const;
+    void setMat4(const GLchar *name, glm::mat4 value);
 
-    void setFloat(const std::string &name, float value) const;
+    void setVec3(const GLchar *name, glm::vec3 value);
+
+    void setVec3(const GLchar *name, float x, float y, float z);
+
+    void setBool(const string &name, bool value) const;
+
+    void setInt(const string &name, int value) const;
+
+    void setFloat(const string &name, float value) const;
+
 
 private:
     GLuint createShader(const char *shaderCode, GLenum type);

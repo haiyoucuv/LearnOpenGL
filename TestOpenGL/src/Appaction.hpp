@@ -9,14 +9,10 @@
 #ifndef Appaction_hpp
 #define Appaction_hpp
 
+#include "const.hpp"
+
 #include <glad.h>
 #include <glfw3.h>
-
-#include <iostream>
-#include <math.h>
-#include <string>
-
-#include "Shader.h"
 
 using namespace std;
 
@@ -29,7 +25,7 @@ public:
     ~Appaction();
 
 private:
-    GLFWwindow * init(int width, int height);
+    GLFWwindow * init(float width, float height);
     static void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 };
 

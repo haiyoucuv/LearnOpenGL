@@ -12,8 +12,8 @@ int draw_triangle(GLFWwindow *window) {
 
     float halfH = sqrtf(3) / 2 / 2;
     float vertexData[] = {
-        0.0f,  halfH,  0.0f, 1.0f, 1.0f, 0.0f,
-        0.5f,  -halfH, 0.0f, 0.0f, 1.0f, 1.0f,
+        0.0f, halfH, 0.0f, 1.0f, 1.0f, 0.0f,
+        0.5f, -halfH, 0.0f, 0.0f, 1.0f, 1.0f,
         -0.5f, -halfH, 0.0f, 1.0f, 0.0f, 1.0f,
     };
 
@@ -21,24 +21,27 @@ int draw_triangle(GLFWwindow *window) {
     GLuint VBO;
     glGenBuffers(1, &VBO);  // 生成缓冲对象
     glBindBuffer(GL_ARRAY_BUFFER, VBO); // 绑定缓冲对象
-    // 设置缓冲内存，并知道绘画模式
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData), vertexData, GL_STATIC_DRAW);
 
     GLuint VAO;
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
 
     string shaderDir = string("/Users/haiyoucuv/Documents/OpenGl/TestOpenGL/TestOpenGL/TestOpenGL/shader/");
-    Shader *shader = new Shader(shaderDir + "00_triangle.vert",
-                                shaderDir + "00_triangle.frag");
+    Shader *shader = new Shader(
+        shaderDir + "00_triangle.vert",
+        shaderDir + "00_triangle.frag"
+    );
 
     shader->use();
 
     // 设定绘画模式为线框模式
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)0);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)(3 * sizeof(float)));
+    // 设置缓冲内存，并设置绘画模式
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData), vertexData, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *) 0);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *) (3 * sizeof(float)));
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
 

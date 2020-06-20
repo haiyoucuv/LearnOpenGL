@@ -8,13 +8,12 @@
 
 #include "05_camera_class.hpp"
 
-Camera *camera = new Camera(glm::vec3(0.0f, 0.0f, 3.0f), 45.0f, 800.0f / 800.0f, 0.1f, 100.0f);
+Camera *camera5 = new Camera(glm::vec3(0.0f, 0.0f, 3.0f), 45.0f, winWidth / winHeight, 0.1f, 100.0f);
 
 int cameraClass(GLFWwindow *window) {
-    string PROJECT_DIR = "/Users/haiyoucuv/Documents/OpenGl/TestOpenGL/TestOpenGL/TestOpenGL/";
 
     if (!window) {
-        std::cout << "无法初始化" << std::endl;
+        cout << "无法初始化" << endl;
         return -1;
     }
 
@@ -25,6 +24,19 @@ int cameraClass(GLFWwindow *window) {
     // 设置渐远纹理过滤方式
     glTexParameteri(GL_TEXTURE, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    // 设定绘画模式为线框模式
+    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+    // 开启深度检测
+    glEnable(GL_DEPTH_TEST);
+
+    // 设置清屏颜色
+    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetCursorPosCallback(window, mouse_callback);
+    glfwSetScrollCallback(window, scroll_callback);
 
     // 加载一个图片
     stbi_set_flip_vertically_on_load(true);
@@ -46,52 +58,6 @@ int cameraClass(GLFWwindow *window) {
     // 已经填充了可以被释放
     stbi_image_free(data);
 
-    // 纹理uv   ------ 位置 ------   - 纹理坐标 -
-    float vertexData[] = {
-        // Front face
-        -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
-        0.5f, -0.5f, -0.5f, 1.0f, 0.0f,
-        0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-        0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-        -0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
-
-        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-        0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-        0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
-        0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
-        -0.5f, 0.5f, 0.5f, 0.0f, 1.0f,
-        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-
-        -0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-        -0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-        -0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-
-        0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-        0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-        0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-        0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-        0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-        0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-
-        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-        0.5f, -0.5f, -0.5f, 1.0f, 1.0f,
-        0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-        0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-
-        -0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
-        0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-        0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-        0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-        -0.5f, 0.5f, 0.5f, 0.0f, 0.0f,
-        -0.5f, 0.5f, -0.5f, 0.0f, 1.0f
-    };
-
     glm::vec3 cubePositions[] = {
         glm::vec3(2.0f, 5.0f, -15.0f),
         glm::vec3(-1.5f, -2.2f, -2.5f),
@@ -108,45 +74,29 @@ int cameraClass(GLFWwindow *window) {
     GLuint VBO;
     glGenBuffers(1, &VBO);                             // 生成缓冲对象
     glBindBuffer(GL_ARRAY_BUFFER, VBO);                // 绑定缓冲对象
-    // 设置缓冲内存，并知道绘画模式
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData), vertexData, GL_STATIC_DRAW);
 
     GLuint VAO;
     glGenVertexArrays(1, &VAO);
-    glBindTexture(GL_TEXTURE_2D, texture);
     glBindVertexArray(VAO);
 
-    Shader *shader = new Shader(PROJECT_DIR + "shader/" + "04_camera.vert",
-        PROJECT_DIR + "shader/" + "04_camera.frag");
+    Shader *shader = new Shader(
+        shaderDir + "04_camera.vert",
+        shaderDir + "04_camera.frag"
+    );
 
     shader->use();
 
-    // 设定绘画模式为线框模式
-    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
+    // 设置缓冲内存，并知道绘画模式
+    glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertexData), cubeVertexData, GL_STATIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) 0);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) (3 * sizeof(float)));
 
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
 
-    // 模型矩阵
-    // glm::mat4 model = glm::mat4(1.0f);
-
-
-    GLint u_model = glGetUniformLocation(shader->id, "u_model");
-    GLint u_view = glGetUniformLocation(shader->id, "u_view");
-    GLint u_projection = glGetUniformLocation(shader->id, "u_projection");
-
-    glEnable(GL_DEPTH_TEST);
-
-    // 观察矩阵
-    // glm::mat4 view = glm::mat4(1.0f);
-    // view = glm::translate(view, glm::vec3(0.0f, 0.0f, -5.0f));
-
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-    glfwSetCursorPosCallback(window, mouse_callback);
-    glfwSetScrollCallback(window, scroll_callback);
+    GLint u_model = shader->getUniformLocation("u_model");
+    GLint u_view = shader->getUniformLocation("u_view");
+    GLint u_projection = shader->getUniformLocation("u_projection");
 
     float lastT = glfwGetTime();
     float dt = 0.0f;
@@ -158,9 +108,11 @@ int cameraClass(GLFWwindow *window) {
             glfwSetWindowShouldClose(window, true);
         }
 
-        // 清屏
-        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        float currentT = glfwGetTime();
+        dt = currentT - lastT;
+        lastT = currentT;
 
+        // 清屏
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         // glClear(GL_COLOR_BUFFER_BIT);
 
@@ -175,23 +127,18 @@ int cameraClass(GLFWwindow *window) {
 
             glUniformMatrix4fv(u_model, 1, GL_FALSE, glm::value_ptr(model));
 
-            glDrawArrays(GL_TRIANGLES, 0, sizeof(vertexData) / sizeof(float) / 5);
+            glDrawArrays(GL_TRIANGLES, 0, sizeof(cubeVertexData) / sizeof(float) / 5);
         }
 
-        float currentT = glfwGetTime();
-        dt = currentT - lastT;
-        lastT = currentT;
+        camera5->update(dt);
 
-        camera->update(dt);
-
-        // camera->lookAt(camera->front);
+        // camera5->lookAt(camera5->front);
 
         processInput(window, dt);
 
+        glUniformMatrix4fv(u_view, 1, GL_FALSE, glm::value_ptr(camera5->view));
 
-        glUniformMatrix4fv(u_view, 1, GL_FALSE, glm::value_ptr(camera->view));
-
-        glUniformMatrix4fv(u_projection, 1, GL_FALSE, glm::value_ptr(camera->projection));
+        glUniformMatrix4fv(u_projection, 1, GL_FALSE, glm::value_ptr(camera5->projection));
 
         glfwSwapBuffers(window);                          // 交换颜色缓冲（双缓冲的交换）（绘制）
         glfwPollEvents();                                 // 检查事件的触发，如键盘输入、鼠标移动
@@ -204,16 +151,16 @@ int cameraClass(GLFWwindow *window) {
 void processInput(GLFWwindow *window, float dt) {
     float cameraSpeed = 0.05f;  // adjust accordingly
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-        camera->position += cameraSpeed * camera->front;
+        camera5->position += cameraSpeed * camera5->front;
     }
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-        camera->position -= cameraSpeed * camera->front;
+        camera5->position -= cameraSpeed * camera5->front;
     }
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-        camera->position -= glm::normalize(glm::cross(camera->front, camera->worldUp)) * cameraSpeed;
+        camera5->position -= glm::normalize(glm::cross(camera5->front, camera5->worldUp)) * cameraSpeed;
     }
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-        camera->position += glm::normalize(glm::cross(camera->front, camera->worldUp)) * cameraSpeed;
+        camera5->position += glm::normalize(glm::cross(camera5->front, camera5->worldUp)) * cameraSpeed;
     }
 }
 
@@ -236,32 +183,26 @@ void mouse_callback(GLFWwindow *window, double xpos, double ypos) {
     xoffset *= sensitivity;
     yoffset *= sensitivity;
 
-    camera->yaw += xoffset;
-    camera->pitch += yoffset;
+    camera5->yaw += xoffset;
+    camera5->pitch += yoffset;
 
-    if (camera->pitch > 89.0f) {
-        camera->pitch = 89.0f;
+    if (camera5->pitch > 89.0f) {
+        camera5->pitch = 89.0f;
     }
-    if (camera->pitch < -89.0f) {
-        camera->pitch = -89.0f;
+    if (camera5->pitch < -89.0f) {
+        camera5->pitch = -89.0f;
     }
-
-    glm::vec3 front;
-    front.x = cos(glm::radians(camera->yaw)) * cos(glm::radians(camera->pitch));
-    front.y = sin(glm::radians(camera->pitch));
-    front.z = sin(glm::radians(camera->yaw)) * cos(glm::radians(camera->pitch));
-    camera->front = glm::normalize(front);
 }
 
 void scroll_callback(GLFWwindow *window, double xoffset, double yoffset) {
-    if (camera->fov >= 1.0f && camera->fov <= 45.0f) {
-        camera->fov -= yoffset;
+    if (camera5->fov >= 1.0f && camera5->fov <= 45.0f) {
+        camera5->fov -= yoffset;
     }
-    if (camera->fov <= 1.0f) {
-        camera->fov = 1.0f;
+    if (camera5->fov <= 1.0f) {
+        camera5->fov = 1.0f;
     }
 
-    if (camera->fov >= 45.0f) {
-        camera->fov = 45.0f;
+    if (camera5->fov >= 45.0f) {
+        camera5->fov = 45.0f;
     }
 }

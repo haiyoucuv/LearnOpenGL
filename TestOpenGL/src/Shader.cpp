@@ -6,21 +6,21 @@
 #include "Shader.h"
 
 // Shader::Shader(const char *vertexPath, const char *fragmentPath) {
-Shader::Shader(std::string vertexPath, std::string fragmentPath) {
+Shader::Shader(string vertexPath, string fragmentPath) {
     // 从文件中读取着色器源码
-    std::string vertexCode, fragmentCode;
+    string vertexCode, fragmentCode;
 
-    std::ifstream vShaderFile, fShaderFile;
+    ifstream vShaderFile, fShaderFile;
 
     // 设置使其可以抛出异常
-    vShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-    fShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+    vShaderFile.exceptions(ifstream::failbit | ifstream::badbit);
+    fShaderFile.exceptions(ifstream::failbit | ifstream::badbit);
     try {
         // 打开文件
         vShaderFile.open(vertexPath);
         fShaderFile.open(fragmentPath);
 
-        std::stringstream vShaderStream, fShaderStream;
+        stringstream vShaderStream, fShaderStream;
 
         // 将读取文件的缓冲区加载到数据流中
         vShaderStream << vShaderFile.rdbuf();
@@ -33,8 +33,8 @@ Shader::Shader(std::string vertexPath, std::string fragmentPath) {
         // 关闭文件处理器
         vShaderFile.close();
         fShaderFile.close();
-    } catch (std::ifstream::failure e) {
-        std::cout << "读取shader文件失败" << std::endl;
+    } catch (ifstream::failure e) {
+        cout << "读取shader文件失败" << endl;
     }
 
     const char *vShaderCode = vertexCode.c_str();
@@ -52,15 +52,33 @@ void Shader::use() {
     glUseProgram(this->id);
 }
 
-void Shader::setBool(const std::string &name, bool value) const {
-    glUniform1i(glGetUniformLocation(this->id, name.c_str()), (int)value);
+void Shader::setVec3(const GLchar *name, glm::vec3 value) {
+    // glUniform3f(glGetUniformLocation(this->id, name), value.x, value.y, value.z);
+    this->setVec3(name, value.x, value.y, value.z);
 }
 
-void Shader::setInt(const std::string &name, int value) const {
+void Shader::setVec3(const GLchar *name, float x, float y, float z) {
+    glUniform3f(glGetUniformLocation(this->id, name), x, y, z);
+}
+
+void Shader::setMat4(const GLchar *name, glm::mat4 value) {
+    glUniformMatrix4fv(glGetUniformLocation(this->id, name), 1, GLFW_FALSE, glm::value_ptr(value));
+}
+
+GLint Shader::getUniformLocation(const GLchar *name) {
+    return glGetUniformLocation(this->id, name);
+}
+
+
+void Shader::setBool(const string &name, bool value) const {
+    glUniform1i(glGetUniformLocation(this->id, name.c_str()), (int) value);
+}
+
+void Shader::setInt(const string &name, int value) const {
     glUniform1i(glGetUniformLocation(this->id, name.c_str()), value);
 }
 
-void Shader::setFloat(const std::string &name, float value) const {
+void Shader::setFloat(const string &name, float value) const {
     glUniform1f(glGetUniformLocation(this->id, name.c_str()), value);
 }
 
@@ -95,7 +113,7 @@ GLuint Shader::createProgram(const char *vertexShaderCode, const char *fragmentS
     GLuint vertexShader = this->createShader(vertexShaderCode, GL_VERTEX_SHADER);
     GLuint fragmentShader = this->createShader(fragmentShaderCode, GL_FRAGMENT_SHADER);
     if (vertexShader == -1 || fragmentShader == -1) {
-        std::cout << "加载着色器失败" << std::endl;
+        cout << "加载着色器失败" << endl;
         return 0;
     }
 
@@ -124,13 +142,13 @@ GLint Shader::checkError(GLuint id, const char *type) {
         glGetShaderiv(id, GL_COMPILE_STATUS, &success);
         if (!success) {
             glGetShaderInfoLog(id, 512, nullptr, infoLog);
-            std::cout << "shader编译失败" << infoLog << std::endl;
+            cout << "shader编译失败" << infoLog << endl;
         }
     } else {
         glGetProgramiv(id, GL_LINK_STATUS, &success);
         if (!success) {
             glGetProgramInfoLog(id, 512, nullptr, infoLog);
-            std::cout << "着色器程序链接失败" << infoLog << std::endl;
+            cout << "着色器程序链接失败" << infoLog << endl;
         }
     }
 

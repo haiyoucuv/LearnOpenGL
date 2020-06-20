@@ -9,7 +9,7 @@
 #include "Appaction.hpp"
 
 Appaction::Appaction() {
-	this->window = this->init(800, 800);
+    this->window = this->init(winWidth, winHeight);
 }
 
 Appaction::~Appaction() {
@@ -19,7 +19,7 @@ Appaction::~Appaction() {
 * 初始化并创建窗口
 * @return 窗口
 */
-GLFWwindow * Appaction::init(int width, int height) {
+GLFWwindow *Appaction::init(float width, float height) {
     // 初始化glfw
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -27,9 +27,9 @@ GLFWwindow * Appaction::init(int width, int height) {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);                      // 指定OpenGL配置文件为核心版本
 
     // 如果在苹果设备上则需要设置窗口的上下文是OpenGL前向兼容的上下文
-        #ifdef __APPLE__
+#ifdef __APPLE__
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-        #endif
+#endif
 
     // 创建窗口
     GLFWwindow *window = glfwCreateWindow(width, height, "Hello OpenGL", nullptr, nullptr);
@@ -42,7 +42,7 @@ GLFWwindow * Appaction::init(int width, int height) {
     glfwMakeContextCurrent(window);
 
     // 初始化glad
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+    if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
         std::cout << "无法初始化glad" << std::endl;
         return nullptr;
     }
@@ -62,4 +62,6 @@ GLFWwindow * Appaction::init(int width, int height) {
 void Appaction::framebuffer_size_callback(GLFWwindow *window, int width, int height) {
     std::cout << "窗口大小改变:" << width << "×" << height << std::endl;
     glViewport(0, 0, width, height);
+    winWidth = width;
+    winHeight = height;
 }
