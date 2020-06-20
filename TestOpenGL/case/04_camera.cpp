@@ -52,7 +52,7 @@
 //     stbi_image_free(data);
 //
 //     // 纹理uv   ------ 位置 ------   - 纹理坐标 -
-//     float cubeVertexData[] = {
+//     float cubeVertexUVData[] = {
 //         // Front face
 //         -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
 //         0.5f, -0.5f, -0.5f, 1.0f, 0.0f,
@@ -114,7 +114,7 @@
 //     glGenBuffers(1, &VBO);                             // 生成缓冲对象
 //     glBindBuffer(GL_ARRAY_BUFFER, VBO);                // 绑定缓冲对象
 //     // 设置缓冲内存，并知道绘画模式
-//     glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertexData), cubeVertexData, GL_STATIC_DRAW);
+//     glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertexUVData), cubeVertexUVData, GL_STATIC_DRAW);
 //
 //     GLuint VAO;
 //     glGenVertexArrays(1, &VAO);
@@ -196,7 +196,7 @@
 //
 //             glUniformMatrix4fv(u_model, 1, GL_FALSE, glm::value_ptr(model));
 //
-//             glDrawArrays(GL_TRIANGLES, 0, sizeof(cubeVertexData) / sizeof(float) / 5);
+//             glDrawArrays(GL_TRIANGLES, 0, sizeof(cubeVertexUVData) / sizeof(float) / 5);
 //         }
 //
 //         float currentT = glfwGetTime();

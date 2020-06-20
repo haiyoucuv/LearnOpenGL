@@ -80,14 +80,14 @@ int cameraClass(GLFWwindow *window) {
     glBindVertexArray(VAO);
 
     Shader *shader = new Shader(
-        shaderDir + "04_camera.vert",
-        shaderDir + "04_camera.frag"
+        SHADER_DIR + "04_camera.vert",
+        SHADER_DIR + "04_camera.frag"
     );
 
     shader->use();
 
     // 设置缓冲内存，并知道绘画模式
-    glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertexData), cubeVertexData, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertexUVData), cubeVertexUVData, GL_STATIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) 0);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) (3 * sizeof(float)));
 
@@ -127,7 +127,7 @@ int cameraClass(GLFWwindow *window) {
 
             glUniformMatrix4fv(u_model, 1, GL_FALSE, glm::value_ptr(model));
 
-            glDrawArrays(GL_TRIANGLES, 0, sizeof(cubeVertexData) / sizeof(float) / 5);
+            glDrawArrays(GL_TRIANGLES, 0, sizeof(cubeVertexUVData) / sizeof(float) / 5);
         }
 
         camera5->update(dt);

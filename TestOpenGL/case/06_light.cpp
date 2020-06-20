@@ -42,12 +42,12 @@ int light(GLFWwindow *window) {
 
     // 创建 Cube Shader
     Shader *cubeShader = new Shader(
-        shaderDir + "06_light.vert",
-        shaderDir + "06_light.frag"
+        SHADER_DIR + "06_light.vert",
+        SHADER_DIR + "06_light.frag"
     );
 
     // 输入顶点数据，设置缓冲内存，并设置绘画模式
-    glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertexData), cubeVertexData, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertexUVData), cubeVertexUVData, GL_STATIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) 0);
     glEnableVertexAttribArray(0);
 
@@ -63,8 +63,8 @@ int light(GLFWwindow *window) {
 
     // 灯光Shader
     Shader *lightShader = new Shader(
-        shaderDir + "06_light.vert",
-        shaderDir + "06_light_light.frag"
+        SHADER_DIR + "06_light.vert",
+        SHADER_DIR + "06_light_light.frag"
     );
 
     float lastT = glfwGetTime();
@@ -102,7 +102,7 @@ int light(GLFWwindow *window) {
         cubeShader->setMat4("u_projection", camera6->projection);
 
         glBindVertexArray(cubeVAO);
-        glDrawArrays(GL_TRIANGLES, 0, sizeof(cubeVertexData) / sizeof(float) / 5);
+        glDrawArrays(GL_TRIANGLES, 0, sizeof(cubeVertexUVData) / sizeof(float) / 5);
 
         // 灯光
         lightShader->use();
@@ -114,7 +114,7 @@ int light(GLFWwindow *window) {
         lightShader->setMat4("u_model", model);
 
         glBindVertexArray(lightVAO);
-        glDrawArrays(GL_TRIANGLES, 0, sizeof(cubeVertexData) / sizeof(float) / 5);
+        glDrawArrays(GL_TRIANGLES, 0, sizeof(cubeVertexUVData) / sizeof(float) / 5);
 
         glfwSwapBuffers(window);    // 交换颜色缓冲（双缓冲的交换）（绘制）
         glfwPollEvents();   // 检查事件的触发，如键盘输入、鼠标移动
@@ -124,8 +124,6 @@ int light(GLFWwindow *window) {
     return 0;
 
 }
-
-void processInput6(GLFWwindow *window, float dt);
 
 void processInput6(GLFWwindow *window, float dt) {
     float cameraSpeed = 0.05f;  // adjust accordingly

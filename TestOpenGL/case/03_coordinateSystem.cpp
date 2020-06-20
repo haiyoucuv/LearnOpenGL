@@ -60,7 +60,7 @@ int coordinateSystem(GLFWwindow *window) {
     glGenBuffers(1, &VBO);                             // 生成缓冲对象
     glBindBuffer(GL_ARRAY_BUFFER, VBO);                // 绑定缓冲对象
     // 设置缓冲内存，并知道绘画模式
-    glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertexData), cubeVertexData, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertexUVData), cubeVertexUVData, GL_STATIC_DRAW);
 
     GLuint VAO;
     glGenVertexArrays(1, &VAO);
@@ -124,7 +124,7 @@ int coordinateSystem(GLFWwindow *window) {
 
             glUniformMatrix4fv(u_model, 1, GL_FALSE, glm::value_ptr(model));
 
-            glDrawArrays(GL_TRIANGLES, 0, sizeof(cubeVertexData) / sizeof(float) / 5);
+            glDrawArrays(GL_TRIANGLES, 0, sizeof(cubeVertexUVData) / sizeof(float) / 5);
         }
 
         glm::mat4 view = glm::mat4(1.0);

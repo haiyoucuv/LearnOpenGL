@@ -18,10 +18,10 @@ using namespace std;
 extern float winWidth;
 extern float winHeight;
 const string PROJECT_DIR = "/Users/haiyoucuv/Documents/OpenGl/TestOpenGL/TestOpenGL/TestOpenGL/";
-const string shaderDir = PROJECT_DIR + "shader/";
+const string SHADER_DIR = PROJECT_DIR + "shader/";
 
 // 纹理uv   ------ 位置 ------   - 纹理坐标 -
-const float cubeVertexData[] = {
+const float cubeVertexUVData[] = {
     // Front face
     -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
     0.5f, -0.5f, -0.5f, 1.0f, 0.0f,
@@ -64,6 +64,50 @@ const float cubeVertexData[] = {
     0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
     -0.5f, 0.5f, 0.5f, 0.0f, 0.0f,
     -0.5f, 0.5f, -0.5f, 0.0f, 1.0f
+};
+
+const float cubeVertexNormalData[] = {
+    -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f,
+    0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f,
+    0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f,
+    0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f,
+    -0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f,
+    -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f,
+
+    -0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
+    0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
+    0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
+    0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
+    -0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
+    -0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
+
+    -0.5f, 0.5f, 0.5f, -1.0f, 0.0f, 0.0f,
+    -0.5f, 0.5f, -0.5f, -1.0f, 0.0f, 0.0f,
+    -0.5f, -0.5f, -0.5f, -1.0f, 0.0f, 0.0f,
+    -0.5f, -0.5f, -0.5f, -1.0f, 0.0f, 0.0f,
+    -0.5f, -0.5f, 0.5f, -1.0f, 0.0f, 0.0f,
+    -0.5f, 0.5f, 0.5f, -1.0f, 0.0f, 0.0f,
+
+    0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f,
+    0.5f, 0.5f, -0.5f, 1.0f, 0.0f, 0.0f,
+    0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f,
+    0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f,
+    0.5f, -0.5f, 0.5f, 1.0f, 0.0f, 0.0f,
+    0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f,
+
+    -0.5f, -0.5f, -0.5f, 0.0f, -1.0f, 0.0f,
+    0.5f, -0.5f, -0.5f, 0.0f, -1.0f, 0.0f,
+    0.5f, -0.5f, 0.5f, 0.0f, -1.0f, 0.0f,
+    0.5f, -0.5f, 0.5f, 0.0f, -1.0f, 0.0f,
+    -0.5f, -0.5f, 0.5f, 0.0f, -1.0f, 0.0f,
+    -0.5f, -0.5f, -0.5f, 0.0f, -1.0f, 0.0f,
+
+    -0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+    0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+    0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f,
+    0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f,
+    -0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f,
+    -0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f
 };
 
 #endif /* const_h */
